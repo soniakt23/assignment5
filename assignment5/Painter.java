@@ -1,3 +1,5 @@
+package assignment5;
+
 /* CRITTERS Critter.java
  * EE422C Project 4 submission by
  * Replace <...> with your actual data.
