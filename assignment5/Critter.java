@@ -5,6 +5,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import assignment5.Critter.CritterShape;
+import javafx.scene.Scene;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+import javafx.stage.Stage;
+
 public abstract class Critter {
 	/* NEW FOR PROJECT 5 */
 	public enum CritterShape {
@@ -26,8 +38,9 @@ public abstract class Critter {
 	 * shape, at least, that's the intent. You can edit these default methods however you 
 	 * need to, but please preserve that intent as you implement them. 
 	 */
+	static GridPane grid = new GridPane();
 	public javafx.scene.paint.Color viewColor() { 
-		return javafx.scene.paint.Color.WHITE; 
+		return javafx.scene.paint.Color.WHITE;//change this 
 	}
 	
 	public javafx.scene.paint.Color viewOutlineColor() { return viewColor(); }
@@ -45,7 +58,16 @@ public abstract class Critter {
 		myPackage = Critter.class.getPackage().toString().split(" ")[1];
 	}
 	
-	protected String look(int direction, boolean steps) {return "";}
+	protected String look(int direction, boolean steps) {
+		int [] finalPosition;
+		finalPosition = this.move(direction, this.x_coord, this.y_coord);
+		
+		for (Critter c: population){
+			if (c.x_coord==finalPosition[0] && c.y_coord == finalPosition[1])
+				return c.toString();
+		}
+		return null;
+		}
 
 	
 	/**
@@ -475,13 +497,105 @@ public abstract class Critter {
 		
 	}
 	
+
+	public static void displayWorld() {
+		try {			
+			
+			Stage displayStage = new Stage();
+			int numCols = Params.world_height ;
+	        int numRows = Params.world_width;
+			for (int i = 0; i < numCols; i++) {
+	            ColumnConstraints colConst = new ColumnConstraints();
+	            colConst.setPercentWidth(100.0 / numCols);
+	            grid.getColumnConstraints().add(colConst);
+	        }
+	        for (int i = 0; i < numRows; i++) {
+	            RowConstraints rowConst = new RowConstraints();
+	            rowConst.setPercentHeight(100.0 / numRows);
+	            grid.getRowConstraints().add(rowConst);         
+	        }
+			grid.setGridLinesVisible(true);
+
+			Scene scene = new Scene(grid, 20*Params.world_height, 20*Params.world_width);
+			displayStage.setScene(scene);
+			
+			displayStage.show();
+			 
+			// Paints the icons.
+			paint();
+		} catch(Exception e) {
+			e.printStackTrace();		
+		}
+	}
+	
+
+	
+	/*
+	 * Paints the shape on a grid.
+	 */
+	public static void paint() {
+		Main.grid.getChildren().clear(); // clean up grid.
+		Shape shape = null;
+		Polygon p = new Polygon();
+		Double[] trianglePoints ={10.0, 0.0, 15.0, 10.0, 5.0, 10.0 };
+		Double[] diamondPoints ={10.0, 0.0,15.0, 5.0, 10.0, 10.0, 5.0, 5.0 };
+		Double[] starPoints = {10.0,0.0,12.0 , 8.0, 20.0 , 8.0 , 12.0, 12.0, 16.0, 20.0, 10.0, 15.0,
+				4.0, 20.0, 8.0, 12.0, 0.0, 8.0, 8.0, 8.0};
+		
+		
+		for(Critter c: population){
+			CritterShape s = c.viewShape();
+			Color fillColor = c.viewFillColor();
+			Color outlineColor = c.viewOutlineColor();
+			int size =0;
+			
+			switch(s) {
+			case CIRCLE: shape = new Circle(20/2); 
+				shape.setFill(fillColor); 
+				shape.setStroke(outlineColor);
+				grid.add(shape, c.x_coord, c.y_coord); // add the shape to the grid.
+				break;
+			case SQUARE: shape = new Rectangle (20, 20); 
+				shape.setFill(fillColor); 
+				shape.setStroke(outlineColor);
+				grid.add(shape, c.x_coord, c.y_coord); // add the shape to the grid.
+				break;
+			case STAR: p = new Polygon();
+				p.getPoints().addAll(starPoints);
+				p.setFill(fillColor);
+				p.setStroke(outlineColor);
+				grid.add(p, c.x_coord, c.y_coord); // add the shape to the grid.
+				break;
+			case DIAMOND: p = new Polygon();
+				p.getPoints().addAll(diamondPoints);
+				p.setFill(fillColor);
+				p.setStroke(outlineColor);
+				grid.add(p, c.x_coord, c.y_coord); // add the shape to the grid.
+				break;
+			case TRIANGLE: p = new Polygon(); 
+				p.getPoints().addAll(trianglePoints);
+				p.setFill(fillColor);
+				p.setStroke(outlineColor);
+				grid.add(p, c.x_coord, c.y_coord); // add the shape to the grid.
+				break;
+			}
+			
+		
+			
+		}
+		
+	}
+	
 	/**
 	 * Displays a character grid of the critters in the population list by indicating their string value
 	 * in the appropriate spot. The edges of the grid are formed with pipes, dashes, and pluses in the corners.
 	 */
+	/*
 	public static void displayWorld() {
+		
 		//ensure correct worldGrid
-		String[][] worldGrid = new String[Params.world_height][Params.world_width];
+	
+		 
 		for (Critter crit : population)
 			worldGrid[crit.y_coord][crit.x_coord] = crit.toString();
 		
@@ -510,7 +624,11 @@ public abstract class Critter {
 		
 		//bottom = top
 		System.out.println(top);
+		
+		
+		
 	}
+	*/
 /**
  * Helper method used to set the critter as alive
  * @param alive
