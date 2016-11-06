@@ -5,10 +5,11 @@
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="163.0" prefWidth="458.0" styleClass="controller" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment5.Controller">
+<AnchorPane prefHeight="199.0" prefWidth="458.0" styleClass="controller" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment5.Controller">
    <children>
       <Pane prefHeight="146.0" prefWidth="300.0" AnchorPane.bottomAnchor="154.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -18,15 +19,18 @@
             <Slider fx:id="critSlider" layoutX="143.0" layoutY="14.0" majorTickUnit="250.0" max="1000.0" min="1.0" minorTickCount="0" showTickMarks="true" value="1.0" />
             <Slider fx:id="seedSlider" layoutX="143.0" layoutY="74.0" majorTickUnit="250.0" max="1000.0" min="1.0" minorTickCount="0" showTickMarks="true" value="1.0" />
          </children></Pane>
-      <Button fx:id="quit" layoutX="405.0" layoutY="130.0" mnemonicParsing="false" text="Quit" />
-      <Button fx:id="display" layoutX="14.0" layoutY="130.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Display" />
+      <Button fx:id="quit" layoutX="405.0" layoutY="160.0" mnemonicParsing="false" text="Quit" />
+      <Button fx:id="display" layoutX="14.0" layoutY="160.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Display" />
       <Button fx:id="timeStep" layoutX="14.0" layoutY="40.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Time Step" />
       <Button fx:id="addCritter" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" text="Add Critter" />
       <Button fx:id="setSeed" layoutX="14.0" layoutY="70.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Set Seed" />
-      <Button fx:id="stats" layoutX="14.0" layoutY="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Statistics" />
+      <Button fx:id="stats" layoutX="14.0" layoutY="130.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Statistics" />
       <TextField fx:id="numTimeSteps" layoutX="98.0" layoutY="40.0" prefHeight="25.0" prefWidth="41.0" text="1" />
-      <ChoiceBox fx:id="statsCritters" layoutX="98.0" layoutY="100.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="statsCritters" layoutX="98.0" layoutY="130.0" prefWidth="150.0" />
       <Slider fx:id="stepSlider" layoutX="143.0" layoutY="44.0" majorTickUnit="250.0" max="1000.0" min="1.0" minorTickCount="0" showTickMarks="true" value="1.0" />
-      <DialogPane fx:id="errorOutput" layoutX="294.0" layoutY="43.0" prefHeight="83.0" prefWidth="150.0" styleClass="dialog-pane" stylesheets="@Style.css" />
+      <DialogPane fx:id="errorOutput" layoutX="294.0" layoutY="43.0" prefHeight="111.0" prefWidth="150.0" styleClass="dialog-pane" stylesheets="@Style.css" />
+      <TextField fx:id="numFrames" layoutX="98.0" layoutY="100.0" prefHeight="25.0" prefWidth="41.0" text="1" />
+      <Slider fx:id="frameSlider" layoutX="143.0" layoutY="104.0" majorTickUnit="250.0" max="1000.0" min="1.0" minorTickCount="0" showTickMarks="true" value="1.0" />
+      <ToggleButton fx:id="toggleButton" layoutX="14.0" layoutY="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Animation" />
    </children>
 </AnchorPane>

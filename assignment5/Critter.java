@@ -39,7 +39,7 @@ public abstract class Critter {
 	 * need to, but please preserve that intent as you implement them. 
 	 */
 	static GridPane grid = new GridPane();
-	static Scene scene = new Scene(grid, 20*Params.world_height, 20*Params.world_width);
+	static Scene scene = new Scene(grid, 20*Params.world_width, 20*Params.world_height);
 
 	public javafx.scene.paint.Color viewColor() { 
 		return javafx.scene.paint.Color.WHITE;//change this 
@@ -528,8 +528,8 @@ public abstract class Critter {
 	public static void displayWorld() {
 		try {			
 			
-			int numCols = Params.world_height ;
-	        int numRows = Params.world_width;
+			int numCols = Params.world_width;
+	        int numRows = Params.world_height;
 			for (int i = 0; i < numCols; i++) {
 	            ColumnConstraints colConst = new ColumnConstraints();
 	            colConst.setPercentWidth(100.0 / numCols);
@@ -570,6 +570,7 @@ public abstract class Critter {
 		
 		
 		for(Critter c: population){
+			System.out.println(c.x_coord + ", " + c.y_coord);
 			CritterShape s = c.viewShape();
 			Color fillColor = c.viewFillColor();
 			Color outlineColor = c.viewOutlineColor();

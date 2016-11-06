@@ -7,7 +7,10 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -23,6 +26,8 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -30,9 +35,15 @@ public class Controller implements Initializable {
 	private ObservableList<String> critterClassesList = FXCollections.observableArrayList(getCritterClasses());
 	private String statsCritterClass = "Critter";
 	private TextArea textArea = new TextArea();
+	private ToggleGroup group = new ToggleGroup();
+	private boolean selected = false;
+	private Timer timer = new Timer();
 	
 	@FXML
 	private Button display;
+	
+	@FXML
+	private Button animation;
 	
 	@FXML
 	private Button stats;
@@ -59,6 +70,12 @@ public class Controller implements Initializable {
 	private Slider stepSlider;
 	
 	@FXML
+	private Slider frameSlider;
+	
+	@FXML
+	private TextField numFrames;
+	
+	@FXML
 	private TextField seed;
 	
 	@FXML
@@ -76,6 +93,9 @@ public class Controller implements Initializable {
 	@FXML
 	private ChoiceBox statsCritters;
 	
+	@FXML
+	private ToggleButton toggleButton;
+	
 	@Override
 	public void initialize(URL fxmlFileLoction, ResourceBundle resources) {
 		crittersToMake.setItems(critterClassesList);
@@ -90,6 +110,28 @@ public class Controller implements Initializable {
 		Scene statsScene = new Scene(layout);
 		statsStage.setScene(statsScene);
 		statsStage.show();
+		
+		toggleButton.setToggleGroup(group);
+		toggleButton.selectedProperty().addListener((p, o, n) -> {
+			selected = !selected;
+			if (selected) {
+				//Gray out other buttons
+				display.setDisable(true);
+				stats.setDisable(true);
+				addCritter.setDisable(true);
+				timeStep.setDisable(true);
+				setSeed.setDisable(true);
+				
+				ScheduledTask st = new ScheduledTask();
+				timer.schedule(st, 2000); //1 frame every 2 seconds
+			}
+			timer.cancel();
+			display.setDisable(false);
+			stats.setDisable(false);
+			addCritter.setDisable(false);
+			timeStep.setDisable(false);
+			setSeed.setDisable(false);
+		});
 		
 		critSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
@@ -166,6 +208,18 @@ public class Controller implements Initializable {
 			}
 		});
 		
+//		animation.setOnAction(new EventHandler<ActionEvent>() {
+//			@Override
+//			public void handle(ActionEvent event) {
+//				Timer timer = new Timer();
+//				ScheduledTask st = new ScheduledTask();
+//				timer.schedule(st, 2000); //1 frame every 2 seconds
+//				//Gray out other buttons
+//				
+//
+//			}
+//		});
+		
 		quit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -226,5 +280,28 @@ public class Controller implements Initializable {
 			
 		}
 	}
-	
+
+	class ScheduledTask extends TimerTask {
+		
+		public void run() {
+			for (int i = 0; i < Integer.parseInt(numFrames.getText()); i++) {
+				//Call worldTimeStep
+				try {
+					Critter.worldTimeStep();
+				} catch (InvalidCritterException e) {
+					e.printStackTrace();
+				}
+				
+				//display world
+				Critter.displayWorld();
+				
+				//display runstats
+				stats();
+				
+				//run timer to countdown
+			}
+		}
+	}
 }
+
+

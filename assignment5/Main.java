@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	static GridPane grid = new GridPane();
+	static Stage displayStage = new Stage();
 
 
 	@Override
