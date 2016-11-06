@@ -54,6 +54,9 @@ public abstract class Critter {
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
 	private boolean moved;
+	private static ArrayList<Integer> old_x_vals = new ArrayList<Integer>();
+	private static ArrayList<Integer> old_y_vals = new ArrayList<Integer>();
+	private static ArrayList<String> old_crit_strings = new ArrayList<String>();
 
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
 	static {
@@ -61,15 +64,29 @@ public abstract class Critter {
 	}
 	
 	protected String look(int direction, boolean steps) {
+		this.energy -= Params.look_energy_cost;
 		int [] finalPosition;
 		finalPosition = this.move(direction, this.x_coord, this.y_coord);
+		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
 		
-		for (Critter c: population){
-			if (c.x_coord==finalPosition[0] && c.y_coord == finalPosition[1])
-				return c.toString();
+		//if called from doTimeStep reference old critter locations
+		if (!stackTraceElements[2].getMethodName().equals("fight")) {
+			for (int i = 0; i < old_x_vals.size(); i++){
+				if (old_x_vals.get(i)==finalPosition[0] && old_y_vals.get(i) == finalPosition[1])
+					return old_crit_strings.get(i);
+			}
 		}
+		
+		//if called from fight reference newest critter locations
+		if (stackTraceElements[2].getMethodName().equals("fight")) {
+			for (Critter c: population){
+				if (c.x_coord==finalPosition[0] && c.y_coord == finalPosition[1])
+					return c.toString();
+			}
+		}
+		
 		return null;
-		}
+	}
 
 	
 	/**
@@ -398,6 +415,14 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void worldTimeStep() throws InvalidCritterException {
+		//Gather up old critter locations for look function
+		for (Critter crit : population) {
+			old_x_vals.add(crit.x_coord);
+			old_y_vals.add(crit.y_coord);
+			old_crit_strings.add(crit.toString());
+		}
+		
+		//Perform each critter's timestep, updating their position
 			for (Critter crit : population) {
 				crit.moved = false;
 				crit.doTimeStep();
