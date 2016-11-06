@@ -39,6 +39,8 @@ public abstract class Critter {
 	 * need to, but please preserve that intent as you implement them. 
 	 */
 	static GridPane grid = new GridPane();
+	static Scene scene = new Scene(grid, 20*Params.world_height, 20*Params.world_width);
+
 	public javafx.scene.paint.Color viewColor() { 
 		return javafx.scene.paint.Color.WHITE;//change this 
 	}
@@ -501,7 +503,6 @@ public abstract class Critter {
 	public static void displayWorld() {
 		try {			
 			
-			Stage displayStage = new Stage();
 			int numCols = Params.world_height ;
 	        int numRows = Params.world_width;
 			for (int i = 0; i < numCols; i++) {
@@ -516,10 +517,10 @@ public abstract class Critter {
 	        }
 			grid.setGridLinesVisible(true);
 
-			Scene scene = new Scene(grid, 20*Params.world_height, 20*Params.world_width);
-			displayStage.setScene(scene);
+			//Scene scene = new Scene(grid, 20*Params.world_height, 20*Params.world_width);
+			Main.displayStage.setScene(scene);
 			
-			displayStage.show();
+			Main.displayStage.show();
 			 
 			// Paints the icons.
 			paint();
@@ -534,7 +535,7 @@ public abstract class Critter {
 	 * Paints the shape on a grid.
 	 */
 	public static void paint() {
-		Main.grid.getChildren().clear(); // clean up grid.
+		grid.getChildren().clear(); // clean up grid.
 		Shape shape = null;
 		Polygon p = new Polygon();
 		Double[] trianglePoints ={10.0, 0.0, 15.0, 10.0, 5.0, 10.0 };
