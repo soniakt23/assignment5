@@ -8,25 +8,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="194.0" prefWidth="458.0" styleClass="controller" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment5.Controller">
+<AnchorPane prefHeight="163.0" prefWidth="458.0" styleClass="controller" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment5.Controller">
    <children>
       <Pane prefHeight="146.0" prefWidth="300.0" AnchorPane.bottomAnchor="154.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TextField fx:id="numTimeSteps" layoutX="314.0" layoutY="40.0" prefHeight="25.0" prefWidth="41.0" text="1" />
-            <Button fx:id="stats" layoutX="381.0" layoutY="100.0" mnemonicParsing="false" text="Statistics" />
-            <Button fx:id="timeStep" layoutX="375.0" layoutY="40.0" mnemonicParsing="false" text="Time Step" />
-            <Button fx:id="addCritter" layoutX="369.0" layoutY="10.0" mnemonicParsing="false" text="Add Critter" />
-            <ChoiceBox fx:id="crittersToMake" layoutX="208.0" layoutY="10.0" prefWidth="150.0" />
-            <TextField fx:id="numCritsBox" layoutX="159.0" layoutY="10.0" prefHeight="25.0" prefWidth="41.0" text="1" />
-            <ChoiceBox fx:id="statsCritters" layoutX="208.0" layoutY="100.0" prefWidth="150.0" />
-            <TextField fx:id="seed" layoutX="314.0" layoutY="70.0" prefHeight="25.0" prefWidth="41.0" text="1" />
-            <Button fx:id="setSeed" layoutX="381.0" layoutY="70.0" mnemonicParsing="false" text="Set Seed" />
-            <Slider fx:id="critSlider" layoutX="14.0" layoutY="16.0" majorTickUnit="250.0" max="1000.0" min="1.0" minorTickCount="0" showTickMarks="true" value="1.0" />
-            <Slider fx:id="stepSlider" layoutX="167.0" layoutY="45.0" majorTickUnit="250.0" max="1000.0" min="1.0" minorTickCount="0" showTickMarks="true" value="1.0" />
-            <Slider fx:id="seedSlider" layoutX="167.0" layoutY="75.0" majorTickUnit="250.0" max="1000.0" min="1.0" minorTickCount="0" showTickMarks="true" value="1.0" />
-            <DialogPane fx:id="errorOutput" layoutX="22.0" layoutY="133.0" prefHeight="53.0" prefWidth="313.0" styleClass="dialog-pane" stylesheets="@Style.css"  />
+            <ChoiceBox fx:id="crittersToMake" layoutX="294.0" layoutY="10.0" prefWidth="150.0" />
+            <TextField fx:id="numCritsBox" layoutX="98.0" layoutY="10.0" prefHeight="25.0" prefWidth="41.0" text="1" />
+            <TextField fx:id="seed" layoutX="98.0" layoutY="70.0" prefHeight="25.0" prefWidth="41.0" text="1" />
+            <Slider fx:id="critSlider" layoutX="143.0" layoutY="14.0" majorTickUnit="250.0" max="1000.0" min="1.0" minorTickCount="0" showTickMarks="true" value="1.0" />
+            <Slider fx:id="seedSlider" layoutX="143.0" layoutY="74.0" majorTickUnit="250.0" max="1000.0" min="1.0" minorTickCount="0" showTickMarks="true" value="1.0" />
          </children></Pane>
-      <Button fx:id="quit" layoutX="413.0" layoutY="150.0" mnemonicParsing="false" text="Quit" />
-      <Button fx:id="display" layoutX="350.0" layoutY="150.0" mnemonicParsing="false" text="Display" />
+      <Button fx:id="quit" layoutX="405.0" layoutY="130.0" mnemonicParsing="false" text="Quit" />
+      <Button fx:id="display" layoutX="14.0" layoutY="130.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Display" />
+      <Button fx:id="timeStep" layoutX="14.0" layoutY="40.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Time Step" />
+      <Button fx:id="addCritter" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" text="Add Critter" />
+      <Button fx:id="setSeed" layoutX="14.0" layoutY="70.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Set Seed" />
+      <Button fx:id="stats" layoutX="14.0" layoutY="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Statistics" />
+      <TextField fx:id="numTimeSteps" layoutX="98.0" layoutY="40.0" prefHeight="25.0" prefWidth="41.0" text="1" />
+      <ChoiceBox fx:id="statsCritters" layoutX="98.0" layoutY="100.0" prefWidth="150.0" />
+      <Slider fx:id="stepSlider" layoutX="143.0" layoutY="44.0" majorTickUnit="250.0" max="1000.0" min="1.0" minorTickCount="0" showTickMarks="true" value="1.0" />
+      <DialogPane fx:id="errorOutput" layoutX="294.0" layoutY="43.0" prefHeight="83.0" prefWidth="150.0" styleClass="dialog-pane" stylesheets="@Style.css" />
    </children>
 </AnchorPane>
