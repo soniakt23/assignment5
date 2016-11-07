@@ -39,7 +39,6 @@ public abstract class Critter {
 	 * need to, but please preserve that intent as you implement them. 
 	 */
 	static GridPane grid = new GridPane();
-	static Scene scene = new Scene(grid, 20*Params.world_width, 20*Params.world_height);
 
 	public javafx.scene.paint.Color viewColor() { 
 		return javafx.scene.paint.Color.WHITE;//change this 
@@ -51,12 +50,14 @@ public abstract class Critter {
 	public abstract CritterShape viewShape(); 
 	
 	private static String myPackage;
-	private	static List<Critter> population = new java.util.ArrayList<Critter>();
+	public	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
 	private boolean moved;
 	private static ArrayList<Integer> old_x_vals = new ArrayList<Integer>();
 	private static ArrayList<Integer> old_y_vals = new ArrayList<Integer>();
 	private static ArrayList<String> old_crit_strings = new ArrayList<String>();
+	private static boolean displayedOnce = false;
+	static Scene scene;
 
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
 	static {
@@ -526,32 +527,45 @@ public abstract class Critter {
 	
 
 	public static void displayWorld() {
-		try {			
-			
-			int numCols = Params.world_width;
-	        int numRows = Params.world_height;
-			for (int i = 0; i < numCols; i++) {
-	            ColumnConstraints colConst = new ColumnConstraints();
-	            colConst.setPercentWidth(100.0 / numCols);
-	            grid.getColumnConstraints().add(colConst);
-	        }
-	        for (int i = 0; i < numRows; i++) {
-	            RowConstraints rowConst = new RowConstraints();
-	            rowConst.setPercentHeight(100.0 / numRows);
-	            grid.getRowConstraints().add(rowConst);         
-	        }
+		if (!displayedOnce) {
+			try {			
+				boolean bigWorld = false;
+				if (Params.world_width > 70 || Params.world_height > 32) {
+					bigWorld = true;
+					scene = new Scene(grid, 15*Params.world_width, 15*Params.world_height);
+			} else {
+				scene = new Scene(grid, 20*Params.world_width, 20*Params.world_height);
+			}
+				int numCols = Params.world_width;
+		        int numRows = Params.world_height;
+				for (int i = 0; i < numCols; i++) {
+		            ColumnConstraints colConst = new ColumnConstraints();
+		            colConst.setPercentWidth(100.0 / numCols);
+		            grid.getColumnConstraints().add(colConst);
+		        }
+		        for (int i = 0; i < numRows; i++) {
+		            RowConstraints rowConst = new RowConstraints();
+		            rowConst.setPercentHeight(100.0 / numRows);
+		            grid.getRowConstraints().add(rowConst);         
+		        }
+				grid.setGridLinesVisible(true);
+	
+				//Scene scene = new Scene(grid, 20*Params.world_height, 20*Params.world_width);
+				Main.displayStage.setScene(scene);
+				displayedOnce = true;
+			} catch(Exception e) {
+				e.printStackTrace();		
+			}
+		}
 			grid.setGridLinesVisible(true);
-
-			//Scene scene = new Scene(grid, 20*Params.world_height, 20*Params.world_width);
-			Main.displayStage.setScene(scene);
-			
 			Main.displayStage.show();
 			 
 			// Paints the icons.
-			paint();
-		} catch(Exception e) {
-			e.printStackTrace();		
-		}
+			boolean bigWorld = false;
+			if (Params.world_width > 70 || Params.world_height > 32)
+				bigWorld = true;
+			paint(bigWorld);
+
 	}
 	
 
@@ -559,18 +573,22 @@ public abstract class Critter {
 	/*
 	 * Paints the shape on a grid.
 	 */
-	public static void paint() {
+	public static void paint(boolean world) {
 		grid.getChildren().clear(); // clean up grid.
 		Shape shape = null;
 		Polygon p = new Polygon();
-		Double[] trianglePoints ={10.0, 0.0, 15.0, 10.0, 5.0, 10.0 };
-		Double[] diamondPoints ={10.0, 0.0,15.0, 5.0, 10.0, 10.0, 5.0, 5.0 };
+		Double[] smallTrianglePoints ={10.0, 0.0, 15.0, 10.0, 5.0, 10.0 };
+		Double[] trianglePoints ={10.0, 0.0, 20.0, 20.0, 0.0, 20.0};
+		Double [] smallDiamondPoints = {7.5, 0.0, 15.0, 7.5, 7.5, 15.0, 0.0, 7.5};
+		Double[] diamondPoints ={10.0, 0.0,20.0, 10.0, 10.0, 20.0, 0.0, 10.0 };
+		Double[] smallStarPoints = {7.5, 0.0, 15.0, 7.5, 0.0, 7.5, 3.25, 15.0, 10.75, 15.0, 
+				5.5, 5.5, 13.0, 15.5, 5.5, 9.5, 13.0, 9.5};
 		Double[] starPoints = {10.0,0.0,12.0 , 8.0, 20.0 , 8.0 , 12.0, 12.0, 16.0, 20.0, 10.0, 15.0,
 				4.0, 20.0, 8.0, 12.0, 0.0, 8.0, 8.0, 8.0};
 		
-		
+		if(world == false){
 		for(Critter c: population){
-			System.out.println(c.x_coord + ", " + c.y_coord);
+			//System.out.println(c.x_coord + ", " + c.y_coord);
 			CritterShape s = c.viewShape();
 			Color fillColor = c.viewFillColor();
 			Color outlineColor = c.viewOutlineColor();
@@ -605,10 +623,50 @@ public abstract class Critter {
 				p.setStroke(outlineColor);
 				grid.add(p, c.x_coord, c.y_coord); // add the shape to the grid.
 				break;
+				}
 			}
+		}
+		else{
+			for(Critter c: population){
+				//System.out.println(c.x_coord + ", " + c.y_coord);
+				CritterShape s = c.viewShape();
+				Color fillColor = c.viewFillColor();
+				Color outlineColor = c.viewOutlineColor();
+				int size =0;
+				
+				switch(s) {
+				case CIRCLE: shape = new Circle(7.5); 
+					shape.setFill(fillColor); 
+					shape.setStroke(outlineColor);
+					grid.add(shape, c.x_coord, c.y_coord); // add the shape to the grid.
+					break;
+				case SQUARE: shape = new Rectangle (15, 15); 
+					shape.setFill(fillColor); 
+					shape.setStroke(outlineColor);
+					grid.add(shape, c.x_coord, c.y_coord); // add the shape to the grid.
+					break;
+				case STAR: p = new Polygon();
+					p.getPoints().addAll(smallStarPoints);
+					p.setFill(fillColor);
+					p.setStroke(outlineColor);
+					grid.add(p, c.x_coord, c.y_coord); // add the shape to the grid.
+					break;
+				case DIAMOND: p = new Polygon();
+					p.getPoints().addAll(smallDiamondPoints);
+					p.setFill(fillColor);
+					p.setStroke(outlineColor);
+					grid.add(p, c.x_coord, c.y_coord); // add the shape to the grid.
+					break;
+				case TRIANGLE: p = new Polygon(); 
+					p.getPoints().addAll(smallTrianglePoints);
+					p.setFill(fillColor);
+					p.setStroke(outlineColor);
+					grid.add(p, c.x_coord, c.y_coord); // add the shape to the grid.
+					break;
 			
+				}
 		
-			
+			}	
 		}
 		
 	}
