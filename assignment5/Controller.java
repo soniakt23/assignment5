@@ -10,6 +10,10 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -30,14 +34,35 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Controller implements Initializable {
 	private ObservableList<String> critterClassesList = FXCollections.observableArrayList(getCritterClasses());
-	private String statsCritterClass = "Critter";
+	private ObservableList<String> statsClassesList = FXCollections.observableArrayList(getStatsCritterClasses());
 	private TextArea textArea = new TextArea();
 	private ToggleGroup group = new ToggleGroup();
 	private boolean selected = false;
-	private Timer timer = new Timer();
+	
+	Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent event) {
+			for (int i = 0; i < Integer.parseInt(numFrames.getText()); i++) { //user choses number of frames
+				//Call worldTimeStep
+				try {
+					Critter.worldTimeStep();
+				} catch (InvalidCritterException e) {
+					e.printStackTrace();
+				}
+			}
+			//display world
+			Critter.displayWorld();
+			
+			//display runstats
+			stats();
+
+		}
+	}));
+	
 	
 	@FXML
 	private Button display;
@@ -85,9 +110,6 @@ public class Controller implements Initializable {
 	private TextField numCritsBox;
 	
 	@FXML
-	private DialogPane errorOutput;
-	
-	@FXML
 	private ChoiceBox crittersToMake;
 	
 	@FXML
@@ -99,8 +121,9 @@ public class Controller implements Initializable {
 	@Override
 	public void initialize(URL fxmlFileLoction, ResourceBundle resources) {
 		crittersToMake.setItems(critterClassesList);
-		statsCritters.setItems(critterClassesList);
-		
+		statsCritters.setItems(statsClassesList);
+		crittersToMake.setValue("Craig");
+		statsCritters.setValue("Critter");
 		
 		Stage statsStage = new Stage();
 		textArea.setEditable(false);
@@ -121,16 +144,34 @@ public class Controller implements Initializable {
 				addCritter.setDisable(true);
 				timeStep.setDisable(true);
 				setSeed.setDisable(true);
+				critSlider.setDisable(true);
+				seedSlider.setDisable(true);
+				stepSlider.setDisable(true);
+				numTimeSteps.setDisable(true);
+				seed.setDisable(true);
+				numCritsBox.setDisable(true);
+				statsCritters.setDisable(true);
+				crittersToMake.setDisable(true);
 				
-				ScheduledTask st = new ScheduledTask();
-				timer.schedule(st, 2000); //1 frame every 2 seconds
+				timeline.setCycleCount(Animation.INDEFINITE);
+				timeline.play();
+			} else {
+				timeline.stop();
+				
+				display.setDisable(false);
+				stats.setDisable(false);
+				addCritter.setDisable(false);
+				timeStep.setDisable(false);
+				setSeed.setDisable(false);
+				critSlider.setDisable(false);
+				seedSlider.setDisable(false);
+				stepSlider.setDisable(false);
+				numTimeSteps.setDisable(false);
+				seed.setDisable(false);
+				numCritsBox.setDisable(false);
+				statsCritters.setDisable(false);
+				crittersToMake.setDisable(false);
 			}
-			timer.cancel();
-			display.setDisable(false);
-			stats.setDisable(false);
-			addCritter.setDisable(false);
-			timeStep.setDisable(false);
-			setSeed.setDisable(false);
 		});
 		
 		critSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -144,6 +185,13 @@ public class Controller implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number newValue) {
 				numTimeSteps.setText(((Integer)newValue.intValue()).toString());
+			}
+		});
+		
+		frameSlider.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number newValue) {
+				numFrames.setText(((Integer)newValue.intValue()).toString());
 			}
 		});
 		
@@ -164,7 +212,6 @@ public class Controller implements Initializable {
 		stats.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				statsCritterClass = (String) statsCritters.getValue();
 				stats();
 			}
 		});
@@ -172,13 +219,12 @@ public class Controller implements Initializable {
 		addCritter.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				errorOutput.setContentText("");
 				Integer nCrits = Integer.parseInt(numCritsBox.getText());
 				for (int i = 0; i < nCrits; i++)
 					try {
 						Critter.makeCritter((String) crittersToMake.getValue());
 					} catch (InvalidCritterException e) {
-						errorOutput.setContentText("Please select a critter type.");
+						e.printStackTrace();
 					}
 			}
 		});
@@ -186,18 +232,15 @@ public class Controller implements Initializable {
 		timeStep.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				errorOutput.setContentText("");
 				for (int i =0; i < Integer.parseInt(numTimeSteps.getText()); i++) {
 					try {
 						Critter.worldTimeStep();
 						stats();
 					} catch (InvalidCritterException e) {
-						errorOutput.setContentText("Error executing timestep.");
+						e.printStackTrace();
 					}
 				}
-				Critter.displayWorld();
-				
-				
+				Critter.displayWorld();			
 			}
 		});
 		
@@ -207,18 +250,6 @@ public class Controller implements Initializable {
 				Critter.setSeed(Integer.parseInt(seed.getText()));
 			}
 		});
-		
-//		animation.setOnAction(new EventHandler<ActionEvent>() {
-//			@Override
-//			public void handle(ActionEvent event) {
-//				Timer timer = new Timer();
-//				ScheduledTask st = new ScheduledTask();
-//				timer.schedule(st, 2000); //1 frame every 2 seconds
-//				//Gray out other buttons
-//				
-//
-//			}
-//		});
 		
 		quit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -255,20 +286,49 @@ public class Controller implements Initializable {
 			}
 		}
 		
+		critterClasses.remove("Critter");
+		return critterClasses;
+	}
+	
+	private ArrayList<String> getStatsCritterClasses() {
+		ArrayList<String> critterClasses = new ArrayList<String>();
+		File dir = new File("assignment5/assignment5");
+		File[] fileList = dir.listFiles();
+		
+		for (int i = 0; i < fileList.length; i++) {
+			if (fileList[i].isFile()) {
+				String fileName = fileList[i].getName();
+				if (fileName.endsWith(".java")) {
+					fileName = fileName.substring(0, fileName.length() - 5);
+				} else {
+					continue;
+				}
+				try {
+					Class<?> parentCritter = Class.forName("assignment5.Critter");
+					Class<?> critter = Class.forName("assignment5" + "." + fileName);
+					if (parentCritter.isAssignableFrom(critter)) {
+						critterClasses.add(fileName);
+					}
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		return critterClasses;
 	}
 	
 	private void stats() {
 		try {
-			errorOutput.setContentText("");
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			PrintStream ps = new PrintStream(baos);
 			PrintStream old = System.out;
 			System.setOut(ps);
 			java.util.List<Critter> instances = null;
-			instances = Critter.getInstances(statsCritterClass);	
+			instances = Critter.getInstances((String) statsCritters.getValue());	
         	Class<?>[] types = {java.util.List.class};
-        	Class<?> c = Class.forName("assignment5" + "." + statsCritterClass);
+        	Class<?> c = Class.forName("assignment5" + "." + (String) statsCritters.getValue());
         	Method runStats = c.getMethod("runStats", types);
         	runStats.invoke(null, instances);
         	textArea.clear();
@@ -276,30 +336,7 @@ public class Controller implements Initializable {
         	System.out.flush();
         	System.setOut(old);
 		} catch(Exception e) {
-			errorOutput.setContentText("Please select a critter type.");
-			
-		}
-	}
-
-	class ScheduledTask extends TimerTask {
-		
-		public void run() {
-			for (int i = 0; i < Integer.parseInt(numFrames.getText()); i++) {
-				//Call worldTimeStep
-				try {
-					Critter.worldTimeStep();
-				} catch (InvalidCritterException e) {
-					e.printStackTrace();
-				}
-				
-				//display world
-				Critter.displayWorld();
-				
-				//display runstats
-				stats();
-				
-				//run timer to countdown
-			}
+			e.printStackTrace();			
 		}
 	}
 }
