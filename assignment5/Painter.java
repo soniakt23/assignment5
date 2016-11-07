@@ -1,16 +1,16 @@
 package assignment5;
 
-/* CRITTERS Critter.java
- * EE422C Project 4 submission by
+/* CRITTERS Painter.java
+ * EE422C Project 5 submission by
  * Replace <...> with your actual data.
- * <Student1 Name>
- * <Student1 EID>
- * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
+ * Mary Gwozdz
+ * mlg3646
+ * 16450
+ * Sonia Taneja
+ * skt638
+ * 16445
  * Slip days used: <0>
- * Fall 2015
+ * Fall 2016
  */
 
 import javafx.scene.shape.Circle;
