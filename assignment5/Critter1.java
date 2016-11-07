@@ -14,14 +14,13 @@
 package assignment5;
 
 import assignment5.Critter.CritterShape;
-import assignment5.Critter.TestCritter;
 
 /**
  * Critter1s will walk to the right on every timestep and reproduce every timestep after the fifth timestep.
  * If the Critter1's energy is greater than a random number between 0 and 100, then it will fight; otherwise,
  * it will try to run to the right.
  */
-public class Critter1 extends TestCritter {
+public class Critter1 extends Critter {
 	int rep = 0;
 	private int crit1Dir = 0;
 
@@ -36,10 +35,6 @@ public class Critter1 extends TestCritter {
 			Critter1 child = new Critter1();
 			reproduce(child, crit1Dir);
 		}
-		
-		//Remove after testing
-		System.out.println("Look in timestep with true (run) returned " + look(crit1Dir, true));
-		System.out.println("Look in timestep with false (walk); returned " + look(crit1Dir, false));
 	}
 	/**
 	 * If the Critter1's energy is greater than a random number between 0 and 100, then it will fight.
@@ -52,10 +47,6 @@ public class Critter1 extends TestCritter {
 		if (this.getEnergy() > randFight) {
 			return true;
 		}
-	
-		//Remove after testing
-		System.out.println("Look in fight with true (run) returned " + look(crit1Dir, true));
-		System.out.println("Look in fight with false (walk); returned " + look(crit1Dir, false));
 		
 		//run away
 		run(crit1Dir);

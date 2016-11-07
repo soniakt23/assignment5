@@ -50,7 +50,7 @@ public abstract class Critter {
 	public abstract CritterShape viewShape(); 
 	
 	private static String myPackage;
-	public	static List<Critter> population = new java.util.ArrayList<Critter>();
+	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
 	private boolean moved;
 	private static ArrayList<Integer> old_x_vals = new ArrayList<Integer>();
@@ -525,7 +525,10 @@ public abstract class Critter {
 		
 	}
 	
-
+	/**
+	 * Displays a character grid of the critters in the population list by indicating their string value
+	 * in the appropriate spot. The edges of the grid are formed with pipes, dashes, and pluses in the corners.
+	 */
 	public static void displayWorld() {
 		if (!displayedOnce) {
 			try {			
@@ -670,50 +673,7 @@ public abstract class Critter {
 		}
 		
 	}
-	
-	/**
-	 * Displays a character grid of the critters in the population list by indicating their string value
-	 * in the appropriate spot. The edges of the grid are formed with pipes, dashes, and pluses in the corners.
-	 */
-	/*
-	public static void displayWorld() {
-		
-		//ensure correct worldGrid
-	
-		 
-		for (Critter crit : population)
-			worldGrid[crit.y_coord][crit.x_coord] = crit.toString();
-		
-		// top "+-----+"
-		String top = "+";
-		for (int i = 0; i < Params.world_width; i ++) {
-			top = top + "-";
-		}
-		top = top + "+";
-		System.out.println(top);
-		
-		//middle - critters with left and right walls
-		String middle = "|";
-		for (int h = 0; h < Params.world_height; h++) { //for each row
-			for (int w = 0; w < Params.world_width; w++) {
-				if (worldGrid[h][w] == null){
-					middle = middle + " ";
-				} else {
-					middle = middle + worldGrid[h][w];
-				}
-			}
-			middle = middle + "|";
-			System.out.println(middle);
-			middle = "|";
-		}
-		
-		//bottom = top
-		System.out.println(top);
-		
-		
-		
-	}
-	*/
+
 /**
  * Helper method used to set the critter as alive
  * @param alive
