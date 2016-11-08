@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> 7aba54e2a72fe8938cd58c4e9e86576d63e4f000
 /* CRITTERS Critter.java
  * EE422C Project 5 submission by
  * Replace <...> with your actual data.
@@ -551,7 +548,6 @@ public abstract class Critter {
 				boolean bigWorld = false;
 				if (Params.world_width > 70 || Params.world_height > 32) {
 					bigWorld = true;
-<<<<<<< HEAD
 					scene = new Scene(grid, 5*Params.world_width, 5*Params.world_height);
 					grid.setGridLinesVisible(true);
 
@@ -559,11 +555,6 @@ public abstract class Critter {
 				scene = new Scene(grid, 20*Params.world_width, 20*Params.world_height);
 				grid.setGridLinesVisible(true);
 
-=======
-					scene = new Scene(grid, 15*Params.world_width, 15*Params.world_height);
-			} else {
-				scene = new Scene(grid, 20*Params.world_width, 20*Params.world_height);
->>>>>>> 7aba54e2a72fe8938cd58c4e9e86576d63e4f000
 			}
 				int numCols = Params.world_width;
 		        int numRows = Params.world_height;
@@ -606,7 +597,6 @@ public abstract class Critter {
 		grid.getChildren().clear(); // clean up grid.
 		Shape shape = null;
 		Polygon p = new Polygon();
-<<<<<<< HEAD
 		Double[] smallTrianglePoints ={0.0, 5.0, 2.5, 0.0, 5.0, 5.0};
 		Double[] trianglePoints ={10.0, 0.0, 20.0, 20.0, 0.0, 20.0};
 		Double [] smallDiamondPoints = {2.5, 0.0, 5.0, 2.5,2.5, 5.0, 0.0, 2.5};
@@ -614,14 +604,6 @@ public abstract class Critter {
 		Double[] smallStarPoints = {0.0, 2.0, 2.0, 2.0, 2.5, 0.0,3.0, 2.0,  5.0, 2.0, 3.0, 3.0, 4.0, 5.0, 2.5, 4.0, 1.0, 5.0,2.0, 3.0  
 			};
 
-=======
-		Double[] smallTrianglePoints ={10.0, 0.0, 15.0, 10.0, 5.0, 10.0 };
-		Double[] trianglePoints ={10.0, 0.0, 20.0, 20.0, 0.0, 20.0};
-		Double [] smallDiamondPoints = {7.5, 0.0, 15.0, 7.5, 7.5, 15.0, 0.0, 7.5};
-		Double[] diamondPoints ={10.0, 0.0,20.0, 10.0, 10.0, 20.0, 0.0, 10.0 };
-		Double[] smallStarPoints = {7.5, 0.0, 15.0, 7.5, 0.0, 7.5, 3.25, 15.0, 10.75, 15.0, 
-				5.5, 5.5, 13.0, 15.5, 5.5, 9.5, 13.0, 9.5};
->>>>>>> 7aba54e2a72fe8938cd58c4e9e86576d63e4f000
 		Double[] starPoints = {10.0,0.0,12.0 , 8.0, 20.0 , 8.0 , 12.0, 12.0, 16.0, 20.0, 10.0, 15.0,
 				4.0, 20.0, 8.0, 12.0, 0.0, 8.0, 8.0, 8.0};
 		
@@ -674,20 +656,12 @@ public abstract class Critter {
 				int size =0;
 				
 				switch(s) {
-<<<<<<< HEAD
 				case CIRCLE: shape = new Circle(2.5); 
-=======
-				case CIRCLE: shape = new Circle(7.5); 
->>>>>>> 7aba54e2a72fe8938cd58c4e9e86576d63e4f000
 					shape.setFill(fillColor); 
 					shape.setStroke(outlineColor);
 					grid.add(shape, c.x_coord, c.y_coord); // add the shape to the grid.
 					break;
-<<<<<<< HEAD
 				case SQUARE: shape = new Rectangle (5, 5); 
-=======
-				case SQUARE: shape = new Rectangle (15, 15); 
->>>>>>> 7aba54e2a72fe8938cd58c4e9e86576d63e4f000
 					shape.setFill(fillColor); 
 					shape.setStroke(outlineColor);
 					grid.add(shape, c.x_coord, c.y_coord); // add the shape to the grid.
