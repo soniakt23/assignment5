@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
@@ -28,7 +27,6 @@
       <TextField fx:id="numTimeSteps" layoutX="98.0" layoutY="40.0" prefHeight="25.0" prefWidth="41.0" text="1" />
       <ChoiceBox fx:id="statsCritters" layoutX="98.0" layoutY="130.0" prefWidth="150.0" />
       <Slider fx:id="stepSlider" layoutX="143.0" layoutY="44.0" majorTickUnit="250.0" max="1000.0" min="1.0" minorTickCount="0" showTickMarks="true" value="1.0" />
-      <DialogPane fx:id="errorOutput" layoutX="294.0" layoutY="43.0" prefHeight="111.0" prefWidth="150.0" styleClass="dialog-pane" stylesheets="@Style.css" />
       <TextField fx:id="numFrames" layoutX="98.0" layoutY="100.0" prefHeight="25.0" prefWidth="41.0" text="1" />
       <Slider fx:id="frameSlider" layoutX="143.0" layoutY="104.0" majorTickUnit="250.0" max="1000.0" min="1.0" minorTickCount="0" showTickMarks="true" value="1.0" />
       <ToggleButton fx:id="toggleButton" layoutX="14.0" layoutY="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Animation" />
